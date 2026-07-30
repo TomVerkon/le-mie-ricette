@@ -15,6 +15,7 @@ export function RecipeForm({ initial }: { initial?: SavedRecipe }) {
   const [instructionsText, setInstructionsText] = useState(
     initial?.instructions.join("\n") ?? ""
   );
+  const [favorite, setFavorite] = useState(initial?.favorite ?? false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,6 +30,7 @@ export function RecipeForm({ initial }: { initial?: SavedRecipe }) {
       image: image.trim() || null,
       ingredientLines: ingredientsText.split("\n"),
       instructions: instructionsText.split("\n"),
+      favorite,
     };
 
     const url = initial ? `/api/recipes/${initial.id}` : "/api/recipes";
@@ -54,19 +56,32 @@ export function RecipeForm({ initial }: { initial?: SavedRecipe }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-400">
+        <div className="rounded-lg border border-conserva/30 bg-conserva/10 p-3 text-sm text-conserva">
           {error}
         </div>
       )}
 
       <div>
-        <label className="mb-1 block text-sm font-medium">Title</label>
+        <div className="mb-1 flex items-center justify-between">
+          <label className="block text-sm font-medium">Title</label>
+          <button
+            type="button"
+            onClick={() => setFavorite((f) => !f)}
+            aria-pressed={favorite}
+            aria-label={favorite ? "Remove from favorites" : "Mark as favorite"}
+            className={`rounded-lg border border-taupe px-2 py-1 text-sm leading-none hover:bg-taupe/30 ${
+              favorite ? "text-saffron" : "text-espresso/40 hover:text-espresso/70"
+            }`}
+          >
+            {favorite ? "★ Favorite" : "☆ Favorite"}
+          </button>
+        </div>
         <input
           type="text"
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
+          className="w-full rounded-lg border border-taupe bg-semolina px-3 py-2 text-sm outline-none focus:border-olive"
         />
       </div>
 
@@ -76,7 +91,7 @@ export function RecipeForm({ initial }: { initial?: SavedRecipe }) {
           type="url"
           value={sourceUrl}
           onChange={(e) => setSourceUrl(e.target.value)}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
+          className="w-full rounded-lg border border-taupe bg-semolina px-3 py-2 text-sm outline-none focus:border-olive"
         />
       </div>
 
@@ -86,7 +101,7 @@ export function RecipeForm({ initial }: { initial?: SavedRecipe }) {
           type="url"
           value={image}
           onChange={(e) => setImage(e.target.value)}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
+          className="w-full rounded-lg border border-taupe bg-semolina px-3 py-2 text-sm outline-none focus:border-olive"
         />
       </div>
 
@@ -98,7 +113,7 @@ export function RecipeForm({ initial }: { initial?: SavedRecipe }) {
           value={ingredientsText}
           onChange={(e) => setIngredientsText(e.target.value)}
           placeholder={"2 cups all-purpose flour\n1 cup unsalted butter, softened\n3/4 cup granulated sugar"}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
+          className="w-full rounded-lg border border-taupe bg-semolina px-3 py-2 text-sm outline-none focus:border-olive"
         />
       </div>
 
@@ -108,14 +123,14 @@ export function RecipeForm({ initial }: { initial?: SavedRecipe }) {
           rows={6}
           value={instructionsText}
           onChange={(e) => setInstructionsText(e.target.value)}
-          className="w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-950"
+          className="w-full rounded-lg border border-taupe bg-semolina px-3 py-2 text-sm outline-none focus:border-olive"
         />
       </div>
 
       <button
         type="submit"
         disabled={saving}
-        className="w-full rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+        className="w-full rounded-lg bg-olive px-4 py-2.5 text-sm font-medium text-semolina hover:bg-olive/90 disabled:opacity-50"
       >
         {saving ? "Saving…" : initial ? "Save changes" : "Add recipe"}
       </button>

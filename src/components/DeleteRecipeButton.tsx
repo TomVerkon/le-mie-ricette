@@ -26,7 +26,7 @@ export function DeleteRecipeButton({ id, redirectTo }: { id: string; redirectTo?
       type="button"
       onClick={handleDelete}
       disabled={deleting}
-      className="rounded-lg border border-red-300 px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 disabled:opacity-50 dark:border-red-900 dark:text-red-400 dark:hover:bg-red-950/40"
+      className="rounded-lg border border-conserva/40 px-3 py-1.5 text-sm text-conserva hover:bg-conserva/10 disabled:opacity-50"
     >
       {deleting ? "Deleting…" : "Delete"}
     </button>

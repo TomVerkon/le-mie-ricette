@@ -28,10 +28,10 @@ export function RecipeCard({ recipe, index }: { recipe: ParsedRecipe; index: num
   }
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="rounded-xl border border-taupe bg-taupe/10 p-4">
       <div className="mb-2 flex items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-900 text-xs font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-olive text-xs font-semibold text-semolina">
             {index + 1}
           </span>
           <h3 className="truncate text-sm font-semibold">{recipe.title}</h3>
@@ -40,7 +40,7 @@ export function RecipeCard({ recipe, index }: { recipe: ParsedRecipe; index: num
           type="button"
           onClick={handleSave}
           disabled={saving || saved}
-          className="shrink-0 rounded-lg border border-zinc-300 px-2 py-1 text-xs text-zinc-600 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-900"
+          className="shrink-0 rounded-lg border border-taupe px-2 py-1 text-xs text-espresso/70 hover:bg-taupe/30 disabled:opacity-50"
         >
           {saved ? "Saved" : saving ? "Saving…" : "Save"}
         </button>
@@ -49,11 +49,11 @@ export function RecipeCard({ recipe, index }: { recipe: ParsedRecipe; index: num
         href={recipe.sourceUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="mb-3 block truncate text-xs text-zinc-500 underline hover:text-zinc-700 dark:hover:text-zinc-300"
+        className="mb-3 block truncate text-xs text-espresso/60 underline hover:text-espresso/80"
       >
         {recipe.sourceUrl}
       </a>
-      <ul className="space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
+      <ul className="space-y-1 text-sm text-espresso/90">
         {recipe.ingredients.map((ing, i) => (
           <li key={i} className="list-inside list-disc">
             {ing.raw}

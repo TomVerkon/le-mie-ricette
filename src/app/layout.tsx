@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Le Mie Ricette",
-  description: "Compare recipes for the same dish and find the consensus ratios.",
+  description: "Your favorite recipes, all in one place.",
 };
 
 export default function RootLayout({
@@ -29,12 +29,15 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <nav className="flex gap-4 border-b border-zinc-200 bg-white px-4 py-3 text-sm dark:border-zinc-800 dark:bg-zinc-950">
+        <nav className="flex gap-4 border-b border-taupe bg-semolina px-4 py-3 text-sm">
           <Link href="/" className="font-medium hover:underline">
-            Compare
+            Favorites
           </Link>
-          <Link href="/recipes" className="text-zinc-500 hover:underline dark:text-zinc-400">
+          <Link href="/recipes" className="text-espresso/60 hover:underline">
             Library
+          </Link>
+          <Link href="/compare" className="text-espresso/60 hover:underline">
+            Compare
           </Link>
         </nav>
         {children}

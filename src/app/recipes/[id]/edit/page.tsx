@@ -14,7 +14,7 @@ export default async function EditRecipePage({
   if (!recipe) notFound();
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-zinc-50 px-4 py-12 dark:bg-black">
+    <div className="flex min-h-screen flex-col items-center bg-semolina px-4 py-12">
       <main className="w-full max-w-2xl">
         <h1 className="text-2xl font-semibold tracking-tight">Edit Recipe</h1>
         <div className="mt-6">

@@ -24,11 +24,11 @@ export function ConsensusTable({
   const baseLabel = rows.find((r) => r.isBase)?.label ?? rows[0].label;
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800">
+    <div className="overflow-x-auto rounded-xl border border-taupe">
       <table className="w-full min-w-max border-collapse text-sm">
         <thead>
-          <tr className="bg-zinc-50 dark:bg-zinc-900">
-            <th className="sticky left-0 z-10 whitespace-nowrap bg-zinc-50 px-3 py-2 text-left font-medium dark:bg-zinc-900">
+          <tr className="bg-semolina">
+            <th className="sticky left-0 z-10 whitespace-nowrap bg-semolina px-3 py-2 text-left font-medium">
               Ingredient
             </th>
             {recipes.map((r, i) => (
@@ -43,11 +43,11 @@ export function ConsensusTable({
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row.label} className="border-t border-zinc-200 dark:border-zinc-800">
-              <td className="sticky left-0 z-10 whitespace-nowrap bg-white px-3 py-2 font-medium capitalize dark:bg-zinc-950">
+            <tr key={row.label} className="border-t border-taupe">
+              <td className="sticky left-0 z-10 whitespace-nowrap bg-semolina px-3 py-2 font-medium capitalize">
                 {row.label}
                 {row.isBase && (
-                  <span className="ml-1 rounded bg-zinc-200 px-1.5 py-0.5 text-[10px] font-normal text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+                  <span className="ml-1 rounded bg-taupe/40 px-1.5 py-0.5 text-[10px] font-normal text-espresso/70">
                     base
                   </span>
                 )}
@@ -60,19 +60,19 @@ export function ConsensusTable({
                     key={i}
                     className={`px-3 py-2 align-top ${
                       isOutlier
-                        ? "bg-amber-50 dark:bg-amber-950/40"
+                        ? "bg-conserva/10"
                         : ""
                     }`}
                   >
                     {entry ? (
                       <div>
-                        <div className="text-zinc-700 dark:text-zinc-300">{entry.raw}</div>
+                        <div className="text-espresso/90">{entry.raw}</div>
                         {!row.isBase && entry.ratio != null && (
                           <div
                             className={`mt-0.5 text-xs ${
                               isOutlier
-                                ? "font-semibold text-amber-700 dark:text-amber-400"
-                                : "text-zinc-400"
+                                ? "font-semibold text-conserva"
+                                : "text-espresso/50"
                             }`}
                           >
                             {formatRatio(entry.ratio)}{" "}
@@ -81,12 +81,12 @@ export function ConsensusTable({
                         )}
                       </div>
                     ) : (
-                      <span className="text-zinc-300 dark:text-zinc-700">not used</span>
+                      <span className="text-espresso/40">not used</span>
                     )}
                   </td>
                 );
               })}
-              <td className="px-3 py-2 text-zinc-500">
+              <td className="px-3 py-2 text-espresso/60">
                 {row.isBase ? "1.00x (reference)" : formatRatio(row.medianRatio)}
               </td>
             </tr>

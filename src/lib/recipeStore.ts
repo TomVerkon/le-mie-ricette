@@ -10,6 +10,7 @@ interface RecipeDoc {
   image: string | null;
   ingredients: ParsedIngredient[];
   instructions: string[];
+  favorite: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,6 +22,7 @@ export interface SavedRecipe {
   image: string | null;
   ingredients: ParsedIngredient[];
   instructions: string[];
+  favorite: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -31,6 +33,7 @@ export interface RecipeInput {
   image?: string | null;
   ingredientLines: string[];
   instructions?: string[];
+  favorite?: boolean;
 }
 
 export function parseRecipeInput(body: unknown): RecipeInput | { error: string } {
@@ -53,6 +56,7 @@ export function parseRecipeInput(body: unknown): RecipeInput | { error: string }
     instructions: Array.isArray(b?.instructions)
       ? b.instructions.filter((l: unknown): l is string => typeof l === "string")
       : [],
+    favorite: typeof b?.favorite === "boolean" ? b.favorite : false,
   };
 }
 
@@ -64,6 +68,7 @@ function toSavedRecipe(doc: WithId<RecipeDoc>): SavedRecipe {
     image: doc.image,
     ingredients: doc.ingredients,
     instructions: doc.instructions,
+    favorite: doc.favorite ?? false,
     createdAt: doc.createdAt.toISOString(),
     updatedAt: doc.updatedAt.toISOString(),
   };
@@ -79,6 +84,7 @@ function buildRecipeFields(input: RecipeInput) {
       .filter(Boolean)
       .map(parseIngredientLine),
     instructions: (input.instructions ?? []).map((s) => s.trim()).filter(Boolean),
+    favorite: input.favorite ?? false,
   };
 }
 
@@ -123,4 +129,25 @@ export async function deleteRecipe(id: string): Promise<boolean> {
   const db = await getDb();
   const result = await db.collection(COLLECTION).deleteOne({ _id: new ObjectId(id) });
   return result.deletedCount > 0;
+}
+
+export async function setFavorite(id: string, favorite: boolean): Promise<SavedRecipe | null> {
+  if (!ObjectId.isValid(id)) return null;
+  const db = await getDb();
+  const result = await db.collection<RecipeDoc>(COLLECTION).findOneAndUpdate(
+    { _id: new ObjectId(id) },
+    { $set: { favorite, updatedAt: new Date() } },
+    { returnDocument: "after" }
+  );
+  return result ? toSavedRecipe(result) : null;
+}
+
+export async function listFavoriteRecipes(): Promise<SavedRecipe[]> {
+  const db = await getDb();
+  const docs = await db
+    .collection<RecipeDoc>(COLLECTION)
+    .find({ favorite: true })
+    .sort({ createdAt: -1 })
+    .toArray();
+  return docs.map(toSavedRecipe);
 }
